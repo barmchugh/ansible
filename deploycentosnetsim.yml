@@ -22,5 +22,5 @@
       prompt: "What Cluster will these be deployed in? e.g. Netsim4-POD7-Cluster1, Netsim5-POD7-CL1 "
       private: no
   vars:
-    #centos_vm_template: Centos7_small
-    centos_vm_template: P9-centos7netsim-template
+    centos_vm_template: centos75
+    #centos_vm_template: P9-centos7netsim-template

@@ -7,7 +7,6 @@ search_domain: athtem.eei.ericsson.se
 http_proxy: http://atproxy1:3128
 https_proxy: https://atproxy1:3128
 
-
 vcenters:
   - name: atvcen8
     datacenter: Netsim4
@@ -22,10 +21,10 @@ vcenters:
     clusters:
       Netsim5-POD5-CL1: P5-netsim-template-CL1
       Netsim5-POD5-CL2: P5-netsim-template-CL2
-      Netsim5-POD5-CL3: P5-netsim-template-CL3
+      Netsim5-POD5-CL3: P5-netsim-template-CL1
       Netsim5-POD6-CL1: P6-netsim-template-CL1
       Netsim5-POD6-CL2: P6-netsim-template-CL2
-      Netsim5-POD7-CL1: P7-netsim-template-CL1
+      Netsim5-POD7-CL1: P7-netsim-template-CL1-6CPU
       Netsim5-POD7-CL2: P7-netsim-template-CL2
       Netsim5-POD7-CL3: P7-netsim-template-CL3
       Netsim5-POD7-CL4: P7-netsim-template-CL4
@@ -45,7 +44,7 @@ networks:
     vyos_template: P0-vyos-template-gw
     vip_network: 10.152.0.0/15
     trans_vlan: vNetSimLin-priv-routing
-  - name: 2pod0
+  - name: vNetSimLin-local-routing-2
     netrng: 10.151.88.0/23 
     mask: 255.255.254.0
     gateway: 10.151.88.4
@@ -54,7 +53,7 @@ networks:
     vyos_template: P0-vyos-template-gw
     vip_network: 10.152.0.0/15
     trans_vlan: vNetSimLin-priv-routing
-  - name: pod5
+  - name: P5-Cld-Netsim1-vFarm
     vlan_id: 3006
     netrng: 10.140.24.0/23 
     gateway: 10.140.24.1
@@ -63,7 +62,7 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim1-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
-  - name: 2pod5
+  - name: P5-Cld-Netsim2-vFarm
     vlan_id: 3018
     netrng: 10.141.0.0/23
     gateway: 10.141.0.1
@@ -72,13 +71,22 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim2-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
-  - name: 3pod5
+  - name: P5-Cld-Netsim3-vFarm
     vlan_id: 3024
     netrng: 10.141.10.0/23
     gateway: 10.141.10.1
     mask: 255.255.254.0
     ipv6_gateway: fe80::4:96ff:fe98:b400
     net_adapter1: dvPG_P5-Cld-Netsim3-vFarm
+    vyos_template: P5-vyos-template-gw
+    vip_network: 10.154.0.0/15
+  - name: P5-Cld-Netsim4-vFarm
+    vlan_id: 3026
+    netrng: 10.151.192.0/21
+    gateway: 10.151.192.1
+    mask: 255.255.252.0
+    ipv6_gateway: fe80::4:96ff:fe98:b400
+    net_adapter1: dvPG_P5-Cld-Netsim4-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
   - name: pod6
@@ -99,7 +107,7 @@ networks:
     net_adapter1: dvPG_P6-Cld-Netsim2-vFarm
     vyos_template: P6-vyos-template-gw
     vip_network: 10.138.0.0/15
-  - name: pod7
+  - name: P7-Cld-Netsim1-vFarm
     vlan_id: 735
     trans_vlan: P7-CLD-NETSIM1-TRANS1
     netrng: 10.149.20.0/23
@@ -109,7 +117,7 @@ networks:
     net_adapter1: dvPG_P7-Cld-Netsim1-vFarm
     vyos_template: P7-vyos-template-gw
     vip_network: 10.234.0.0/15
-  - name: 2pod7
+  - name: P7-Cld-Netsim2-vFarm
     vlan_id: 810
     trans_vlan: P7-CLD-NETSIM1-TRANS1
     netrng: 10.149.52.0/23
@@ -119,7 +127,7 @@ networks:
     net_adapter1: dvPG_P7-Cld-Netsim2-vFarm
     vyos_template: P7-vyos-template-gw
     vip_network: 10.234.0.0/15
-  - name: 3pod7
+  - name: P7-Cld-Netsim3-vFarm 
     vlan_id: 784
     trans_vlan: P7-CLD-NETSIM1-TRANS1
     netrng: 10.149.54.0/23
@@ -129,14 +137,23 @@ networks:
     net_adapter1: dvPG_P7-Cld-Netsim3-vFarm
     vyos_template: P7-vyos-template-gw
     vip_network: 10.234.0.0/15 
-  - name: pod9
+  - name: P7-Cld-Netsim4-vFarm
+    vlan_id: 728
+    trans_vlan: P7-CLD-NETSIM1-TRANS1
+    netrng: 10.151.200.0/21
+    mask: 255.255.248.0
+    gateway: 10.151.200.1
+    ipv6_gateway: fe80::4:96ff:fe9a:ef50
+    net_adapter1: dvPG_P7-Cld-Netsim4-vFarm
+    vyos_template: P7-vyos-template-gw
+    vip_network: 10.234.0.0/15
+  - name: P9-Cld-Netsim1-vFarm
     vlan_id: 912
     trans_vlan: P9-CLD-NETSIM1-TRANS1
     netrng: 10.251.0.0/21
     mask: 255.255.248.0
     gateway: 10.251.0.1
     ipv6_gateway: fe80::204:96ff:fe9c:64dd
-    ipv6_vip_network: fd4b:64bb:ad29
     net_adapter1: dvPG_P9-Cld-Netsim1-vFarm
     vyos_template: P9-vyos-template-gw
     vip_network: 10.254.0.0/15
