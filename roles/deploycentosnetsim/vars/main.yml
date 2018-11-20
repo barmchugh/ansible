@@ -1,0 +1,8 @@
+---
+# group_vars used in most cases as mulitple roles use the same common variables accross the enviroment
+
+package:
+  - bind-utils
+  - zip
+
+

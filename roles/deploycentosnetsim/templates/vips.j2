@@ -1,0 +1,53 @@
+{# Set Up the variable names and values 1st #}
+{% set ifcfg_name = 'ens160' %}
+{% set vip_prefix = 22 %}
+{% set ipv6_vip_prefix = 80 %}
+{% set ipv6_vip_count = 2000 %}
+{% set vyos_number = 0 %}{# Old vFarm convention, just hardcoding 0 for now and can write logic if needed again #}
+{% set address = lookup('dig', inventory_hostname + '.'+ domain ) %}
+{% set vm_number = inventory_hostname.split('-')[1] | int %}
+{% set vfarm_number = inventory_hostname.split('-')[0] | regex_search('(?<=[a-zA-Z][0-9]{1})([0-9]{1,3})') %}{# Get the 3 digit number of the VM Name. This (?<=[a-zA-Z][0-9]{1}) searches after the name and the 1st digit. HINT:  use the $ to select from end and match backward, this would be a similiar search regex_search('[0-9]{3}$') #}
+NAME={{ifcfg_name}}
+DNS1={{nameserver1}}
+DNS2={{nameserver2}}
+DOMAIN={{search_domain}}
+DEVICE={{ifcfg_name}}
+ONBOOT=yes
+USERCTL=no
+BOOTPROTO=static
+ARP=no
+{% for net in networks %}
+{% if address | ipaddr(net.netrng)>0 %}
+GATEWAY={{ net.gateway }}
+NETMASK={{ net.mask }}
+IPADDR={{ address }}
+{% set subnet_size = net.vip_network | ipsubnet(vip_prefix, vm_number) | ipaddr('size') %}{# Integer Value of the Subnet mask specified in Vars #}
+{% set vm_network = net.vip_network | ipsubnet(vip_prefix, vm_number) %}{# Specific Network depending on the hostname of the VM #}
+{% for i in range(subnet_size-1) %}{# Use -1 so the broadcast (last)  address isn't used as a VIP #}
+{% if vm_network | ipaddr(i) | ipaddr('host')>0 %}{# Using 'if' to only print when there is a Valid IP Address #}
+IPADDR{{i}}={{ vm_network | ipaddr(i) | ipaddr('host') | ipaddr('address') }}
+PREFIX{{i}}={{vip_prefix}}
+{% endif %}
+{% endfor -%}
+{% set vm_ipv6_network = [net.ipv6_vip_network,vfarm_number~vyos_number,vm_number,":/"~ipv6_vip_prefix]|join(':') %}{# concatenate variables using ~ #}
+{# #}
+{# Below HAS to be ONE LINE as space separated is the ONLY format that IPV6ADDR_SECONDARIES support see link: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s1-networkscripts-interfaces #}
+{# Using 'if' to only print when there is a Valid IP Address #}
+{# The Whitespace in IPV6ADDR_SECONDARIES is highly sensitive so no space between the "" #}
+IPV6ADDR_SECONDARIES="
+{%- for i in range(ipv6_vip_count) -%}{# use %- and -% to remove whitespace at the begining and end of block #}
+{%- if vm_ipv6_network | ipaddr(i) | ipaddr('host')>0 -%}
+{{ vm_ipv6_network | ipaddr(i) }}{% if not loop.last %} {% endif %}{# Use this loop to put a space between the IP Addresses #}
+{% endif %}
+{%- endfor -%}"
+IPV6_DEFAULTGW={{ net.ipv6_gateway }}
+IPV6_DEFAULTDEV={{ifcfg_name}}
+{% endif %}
+{% endfor -%}
+PEERDNS=no
+IPV6INIT=yes
+IPV6_AUTOCONF=no
+
+check_link_down() {
+ return 1;
+  }

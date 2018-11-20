@@ -1,0 +1,6 @@
+- name: Install {{ package }}
+  yum:
+    name: "{{ package }}"
+    state: present
+  environment:
+    http_proxy: "{{ http_proxy }}"

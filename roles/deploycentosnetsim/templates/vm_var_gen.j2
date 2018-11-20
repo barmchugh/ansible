@@ -1,0 +1,23 @@
+{% set address = lookup('dig', inventory_hostname + '.'+ domain ) %}
+{% for net in networks %}
+{% if address | ipaddr(net.netrng)>0 %}
+name: {{ net.name }} 
+mask: {{ net.mask }}
+gateway: {{ net.gateway }}
+net_adapter1: {{ net.net_adapter1 }}
+{# vm_template: {{ net.vm_template }} #}
+{% endif %}
+{% endfor -%}
+
+
+{% for vcens in vcenters %}
+{% if cluster_input in vcens.clusters %}
+{% for cltrs in vcens.clusters %}
+{% if cluster_input in cltrs %}
+vm_template: {{ vcens.clusters[cltrs] }}
+{% endif %}
+{% endfor %}
+vcenter: {{ vcens.name }}
+datacenter: {{ vcens.datacenter }}
+{% endif %} 
+{% endfor %}

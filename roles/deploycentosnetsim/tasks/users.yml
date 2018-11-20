@@ -1,0 +1,22 @@
+# Add users
+- name: Add users
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    #state: absent
+    state: present
+    createhome: yes
+  with_items: "{{users}}"
+###
+# Generating Password Strings
+# You can't put a plaintext password into Ansible. Instead you need to generate one!
+# The easiest way to do this is with the mkpasswd command:
+# openssl passwd -1
+#
+
+- name: Add to Wheel Group for Sudoers
+  user:
+    name: "{{ item.name }}"
+    groups: wheel
+  with_items: "{{users}}"
+  when: item.use_sudo
