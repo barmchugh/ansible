@@ -1,0 +1,11 @@
+---
+- name: Disable Firewalld
+  systemd:
+    name: firewalld
+    enabled: no
+
+- name: Stop Firewalld
+  systemd:
+    name: firewalld
+    state: stopped
+

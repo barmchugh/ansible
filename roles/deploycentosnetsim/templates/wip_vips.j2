@@ -1,21 +1,23 @@
 {# Set Up the variable names and values 1st #}
 {% set ifcfg_name = 'ens160' %}
-{% set vip_prefix = 22 %}
+{% set vip_prefix = 28 %}
 {% set ipv6_vip_prefix = 80 %}
-{% set ipv6_vip_count = 2000 %}
+{% set ipv6_vip_count = 1024 %}
 {% set vyos_number = 0 %}{# Old vFarm convention, just hardcoding 0 for now and can write logic if needed again #}
 {% set address = lookup('dig', inventory_hostname + '.'+ domain ) %}
 {% set vm_number = inventory_hostname.split('-')[1] | int %}
 {% set vfarm_number = inventory_hostname.split('-')[0] | regex_search('(?<=[a-zA-Z][0-9]{1})([0-9]{1,3})') %}{# Get the 3 digit number of the VM Name. This (?<=[a-zA-Z][0-9]{1}) searches after the name and the 1st digit. HINT:  use the $ to select from end and match backward, this would be a similiar search regex_search('[0-9]{3}$') #}
 NAME={{ifcfg_name}}
-DNS1={{nameserver1}}
-DNS2={{nameserver2}}
-DOMAIN={{search_domain}}
+#DNS1={{nameserver1}}
+#DNS2={{nameserver2}}
+#DOMAIN={{search_domain}}
 DEVICE={{ifcfg_name}}
 ONBOOT=yes
-USERCTL=no
+USERCTL=yes
 BOOTPROTO=static
-ARP=no
+NM_CONTROLLED=no
+ARPCHECK=no
+NO_ALIASROUTING=yes
 DEFROUTE=yes
 IPV4_FAILURE_FATAL=no
 IPV6INIT=yes
@@ -24,7 +26,6 @@ IPV6_AUTOCONF=yes
 {% if address | ipaddr(net.netrng)>0 %}
 IPV6_DEFAULTGW={{ net.ipv6_gateway }}
 IPV6_DEFAULTDEV={{ifcfg_name}}
-GATEWAY={{ net.gateway }}
 NETMASK={{ net.mask }}
 IPADDR={{ address }}
 {% set subnet_size = net.vip_network | ipsubnet(vip_prefix, vm_number) | ipaddr('size') %}{# Integer Value of the Subnet mask specified in Vars #}
@@ -33,7 +34,6 @@ IPADDR={{ address }}
 {% if vm_network | ipaddr(i) | ipaddr('host')>0 %}{# Using 'if' to only print when there is a Valid IP Address #}
 IPADDR{{i}}={{ vm_network | ipaddr(i) | ipaddr('host') | ipaddr('address') }}
 PREFIX{{i}}={{vip_prefix}}
-NETMASK{{i}}={{ vm_network | ipaddr('netmask') }}
 {% endif %}
 {% endfor -%}
 {% set vm_ipv6_network = [net.ipv6_vip_network,vfarm_number~vyos_number,vm_number,":/"~ipv6_vip_prefix]|join(':') %}{# concatenate variables using ~ #}

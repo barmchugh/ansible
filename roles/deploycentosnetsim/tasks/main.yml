@@ -11,7 +11,10 @@
 
     - include_vars: logins.yml
       run_once: true
-      tags: users
+      tags:
+        - users
+        - vips
+        - settings
 
 
     - name: Deploy guest from template
@@ -55,6 +58,7 @@
         hostname: "{{ vcenter }}" 
         username: "{{vcenter_user}}"
         password: "{{vcenter_pass}}"
+        validate_certs: no
         datacenter: "{{ datacenter }}" 
         cluster: "{{ cluster_input }}"
         name: "{{ inventory_hostname }}"
@@ -87,3 +91,7 @@
     - name: Add Users
       include: users.yml
       tags: users
+
+    - name: Customise Settings
+      include: settings.yml
+      tags: settings

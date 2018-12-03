@@ -147,6 +147,7 @@ networks:
     net_adapter1: dvPG_P7-Cld-Netsim4-vFarm
     vyos_template: P7-vyos-template-gw
     vip_network: 10.234.0.0/15
+    ipv6_vip_network: fd93:79c:e4bb
   - name: P9-Cld-Netsim1-vFarm
     vlan_id: 912
     trans_vlan: P9-CLD-NETSIM1-TRANS1
