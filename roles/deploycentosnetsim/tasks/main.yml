@@ -1,5 +1,7 @@
 ---
-  ######################### Useful Learnings, all work ######################### 
+### Main Task to deploy CentOS VMs into VMware vCenter Enviroment and Customise Config & Settings ###
+### Created By: Bar McHugh ##
+### Created: Nov 2018 ##
 
     - name: Update /root/.ansible/tmp/setupvariables.yml file with the customized facts based on what Subnet Netsims are within.
       connection: local
@@ -15,6 +17,7 @@
         - users
         - vips
         - settings
+        - subinterface
 
 
     - name: Deploy guest from template
@@ -70,12 +73,19 @@
     - name: Wait for Slow Ass VMs to power on and run customization... Yawn.. ZzZZ!
       local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=10 timeout=240 connect_timeout=15
 
-    - name: Run VIP Creation
+ #   - name: Run VIP Creation
+ #     #connection: local
+ #     #template: src=vips.j2 dest=/root/baz/vips.list
+ #     template: src=vips.j2 dest=/etc/sysconfig/network-scripts/ifcfg-ens160
+ #     register: ifcfg_state
+ #     tags: vips
+
+    - name: Test Sub Interface Creation
+      template: src=range.j2 dest=/etc/sysconfig/network-scripts/{{ifcfg_name}}-range{{item}}
+      #template: src=range.j2 dest=/tmp/{{ifcfg_name}}-range{{item}}
+      loop: "{{range(0, range_file_number ) | list }}"   # range_file_number is defined in the role vars main.yml file #
       #connection: local
-      #template: src=vips.j2 dest=/root/baz/vips.list
-      template: src=vips.j2 dest=/etc/sysconfig/network-scripts/ifcfg-ens160
-      register: ifcfg_state
-      tags: vips
+      tags: subinterface
 
     # Restart the Network to apply IP addresses & routes.
     - name: Restart Network Service

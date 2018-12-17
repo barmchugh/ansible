@@ -23,4 +23,5 @@
       private: no
   vars:
     centos_vm_template: centos75
+    ifcfg_name: ifcfg-ens160
     #centos_vm_template: P9-centos7netsim-template

@@ -1,0 +1,19 @@
+{# item will be passed in from loop in main task and will be an integer value #}
+{% set address = lookup('dig', inventory_hostname + '.'+ domain ) %}{# Get the Ip Address of the Netsim VM from DNS #}
+{% set vm_number = inventory_hostname.split('-')[1] | int %}{# Get the number of the Netsim VM based on the Integer after the "-" #}
+{% set vm_network_index = (vm_number - 1) %}
+{% set subinterface_index = (item * 256) %}{# 256 addresses in a /24 network  #}
+
+{%- for net in networks -%}
+{% if address | ipaddr(net.netrng)>0 -%}
+{% set vm_network = net.vip_network | ipsubnet(vip_prefix, vm_network_index) %}{# Specific Network depending on the hostname of the VM #}
+{# Start IP Address on the 1s usable address of VIP Subnet to be used #}
+IPADDR_START={{ vm_network | ipsubnet(24, item) | ipaddr('1') | ipaddr('address') }}
+{# End IP address is the last usable IP address of the VIP subnet range #}
+IPADDR_END={{ vm_network | ipsubnet(24, item) | ipaddr('-1') | ipaddr('address') }}
+PREFIX={{ vip_prefix }}
+CLONENUM_START={{subinterface_index}}
+{% endif %}
+{% endfor -%}
+{# {{ vm_network }} << Network VM will used based on prefix size chosen in VARS file. #}
+{# Number of range files needed >> {{ vm_network | ipsubnet(24) }}  The amount of /24 subnets in the variable vm_network, because range files can only use 256 addresses i.e. /24 network  #}
