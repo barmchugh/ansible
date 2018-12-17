@@ -89,25 +89,11 @@
     
     - name: Configure Main interface
       lineinfile:
-        path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
-        regexp: "{{item.regexp}}"
-        line: "{{item.line}}"
-        insertafter: '^BOOTPROTO' 
+        path: "{{ ifcfg_folder_path }}{{ifcfg_name}}"
+        regexp: {{item.regexp}}
+        line: {{item.line}}
       with_items:
-        - {regexp: '^ARP', line: 'ARPCHECK=no'}
-        - {regexp: '^NM_CONTROLLED', line: 'NM_CONTROLLED=no'}
-      tags: settings
-
-    - name: Configure Main interface - Remove old IPs
-      lineinfile:
-        path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
-        regexp: "{{item}}"
-        state: absent
-        #line: "{{item.line}}"
-      with_items:
-        - '^IPADDR[0-9]'
-        - '^PREFIX[0-9]'
-        - '^NETMASK[0-9]'
+        - [ regexp: '^ARP', line: 'ARPCHECK=no' ]
       tags: settings
 
     - name: Install Extra Packages

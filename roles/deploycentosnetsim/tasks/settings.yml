@@ -9,3 +9,23 @@
     name: firewalld
     state: stopped
 
+- name: Disable NetworkManger
+  systemd:
+    name: NetworkManager
+    enabled: no
+
+- name: Stop NetworkManager
+  systemd:
+    name: NetworkManager
+    state: stopped
+
+
+- name: Enable Network
+  systemd: 
+    name: network
+    enabled: yes
+
+- name: Start Network
+  systemd:
+    name: network
+    state: started

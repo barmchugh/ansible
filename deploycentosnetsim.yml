@@ -16,12 +16,9 @@
   - deploycentosnetsim
   
   vars_prompt:
-#    - name: "check_this"
-#      prompt: "Have you checked the Network size (/22 /21 /20) in the script (roles/deploynetsim_v2/files/netsimsetup.pl)?"
     - name: "cluster_input"
       prompt: "What Cluster will these be deployed in? e.g. Netsim4-POD7-Cluster1, Netsim5-POD7-CL1 "
       private: no
   vars:
     centos_vm_template: centos75
     ifcfg_name: ifcfg-ens160
-    #centos_vm_template: P9-centos7netsim-template
