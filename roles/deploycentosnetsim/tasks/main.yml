@@ -80,11 +80,20 @@
  #     register: ifcfg_state
  #     tags: vips
 
-    - name: Test Sub Interface Creation
-      template: src=range.j2 dest=/etc/sysconfig/network-scripts/{{ifcfg_name}}-range{{item}}
+    - name: Set Up main interface and IPv6
+      template:
+        src: ifcfg.j2
+        dest: "{{ifcfg_folder_path}}{{ifcfg_name}}"
+      register: ifcfg_state
+      tags: subinterface
+
+
+    - name: Create Sub Interfaces using Range Files
+      template: src=range.j2 dest="{{ifcfg_folder_path}}{{ifcfg_name}}-range{{item}}"
       #template: src=range.j2 dest=/tmp/{{ifcfg_name}}-range{{item}}
       loop: "{{range(0, range_file_number ) | list }}"   # range_file_number is defined in the role vars main.yml file #
       #connection: local
+      register: ifcfg_range_state
       tags: subinterface
     
     - name: Configure Main interface
@@ -127,5 +136,5 @@
       service:
         name: network
         state: restarted
-      when: ifcfg_state is changed
+      when: ifcfg_state is changed or ifcfg_range_state is changed
 

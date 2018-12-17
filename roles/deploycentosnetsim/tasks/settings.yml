@@ -29,3 +29,11 @@
   systemd:
     name: network
     state: started
+
+- name: Customise config file to allow connections only to main IP address
+  lineinfile:
+    path: "{{item.name}}"
+    regexp: "{{item.regexp}}"
+    line: "{{item.line}}"
+  with_items: "{{config_files}}"
+

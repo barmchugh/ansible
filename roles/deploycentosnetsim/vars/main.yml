@@ -3,8 +3,17 @@
 
 vip_prefix: 22
 range_file_number: 4  # This is calculate based on how many /24 network are in vip_prefix value. Range files can only have /24's defined. Centos limitation #
-vip_count: 1023
+ipv6_vip_prefix: 80
+ipv6_vip_count: 1000
+#vip_count: 1023
+
 ifcfg_folder_path: "/etc/sysconfig/network-scripts/"
+device_name: ens160
+
+config_files:
+  - name: "/etc/ssh/sshd_config"
+    regexp: "^ListenAddress {{ lookup('dig', '{{ inventory_hostname }}' )}}"
+    line: "ListenAddress {{ lookup('dig', '{{ inventory_hostname }}' )}}"
 
 package:
   - bind-utils
