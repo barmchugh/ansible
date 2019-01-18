@@ -1,0 +1,9 @@
+---  
+- name: Remount Root / as Read/Write
+  #shell: "mount -o remount,rw /dev/mapper/centos-root /"
+  mount:
+    path: /
+    src: /dev/mapper/centos-root
+    fstype: xfs
+    opts: defaults
+    state: mounted

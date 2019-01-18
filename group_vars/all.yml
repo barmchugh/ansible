@@ -158,3 +158,4 @@ networks:
     net_adapter1: dvPG_P9-Cld-Netsim1-vFarm
     vyos_template: P9-vyos-template-gw
     vip_network: 10.254.0.0/15
+    ipv6_vip_network: fd4b:64bb:ad29

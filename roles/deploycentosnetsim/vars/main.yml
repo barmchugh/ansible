@@ -6,7 +6,7 @@ range_file_number: 4  # This is calculate based on how many /24 network are in v
 ipv6_vip_prefix: 80
 ipv6_vip_count: 1000
 #vip_count: 1023
-
+ 
 ifcfg_folder_path: "/etc/sysconfig/network-scripts/"
 device_name: ens160
 
@@ -14,6 +14,10 @@ config_files:
   - name: "/etc/ssh/sshd_config"
     regexp: "^ListenAddress {{ lookup('dig', '{{ inventory_hostname }}' )}}"
     line: "ListenAddress {{ lookup('dig', '{{ inventory_hostname }}' )}}"
+  - name: "/etc/ssh/sshd_config"
+    regexp: "^ListenAddress 127.0.0.1"
+    line: "ListenAddress 127.0.0.1"
+
 
 package:
   - bind-utils
@@ -22,5 +26,30 @@ package:
   - curl
   - expect
   - ntp
-
-
+  - unzip
+  - perl-devel
+  - perl-Switch
+  - dos2unix
+  - expect
+  - cpan
+  - perl-Test-Simple
+  - bc
+  - glibc
+  - mlocate
+  - ncurses-libs-5.9-14.20130511.el7_4.i686
+  - zlib-devel
+  - zlib
+  - readline-devel-6.2-10.el7.i686
+  - openssl-libs-1.0.2k-16.el7.i686
+  - openssl
+  - ed
+  - xterm
+  - lsof
+  - epel-release
+  #- perl-Net-OpenSSH
+  - openldap
+  - openldap-clients
+  - openldap-servers
+  - rsh
+  - rsh-server
+  #- libreadline5

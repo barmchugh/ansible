@@ -1,0 +1,6 @@
+{% set address = lookup('dig', inventory_hostname + '.'+ domain ) %}
+{% for net in networks %}
+{% if address | ipaddr(net.netrng)>0 %}
+{{net.vip_network}} via {{ lookup('dig', groups['vyos'][0]) }} dev {{device_name}}
+{% endif %}
+{% endfor -%}

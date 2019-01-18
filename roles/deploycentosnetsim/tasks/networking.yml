@@ -1,0 +1,16 @@
+---  
+- name: Configure Main interface - Remove old IPs
+  lineinfile:
+    path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
+    regexp: "{{item}}"
+    state: absent
+    #line: "{{item.line}}"
+  with_items:
+    - '^IPADDR[0-9]'
+    - '^PREFIX[0-9]'
+    - '^NETMASK[0-9]'
+
+- name: Add Routes for VIP to VIP communications
+  template:
+    src: route-ifname.j2
+    dest: "{{ifcfg_folder_path}}route-{{device_name}}" 

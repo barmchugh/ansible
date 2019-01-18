@@ -13,11 +13,7 @@
 
     - include_vars: logins.yml
       run_once: true
-      tags:
-        - users
-        - vips
-        - settings
-        - subinterface
+      tags: always    # Alway runs this task regardless of what tag is choosen
 
 
     - name: Deploy guest from template
@@ -107,17 +103,9 @@
         - {regexp: '^NM_CONTROLLED', line: 'NM_CONTROLLED=no'}
       tags: settings
 
-    - name: Configure Main interface - Remove old IPs
-      lineinfile:
-        path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
-        regexp: "{{item}}"
-        state: absent
-        #line: "{{item.line}}"
-      with_items:
-        - '^IPADDR[0-9]'
-        - '^PREFIX[0-9]'
-        - '^NETMASK[0-9]'
-      tags: settings
+    - name: Setup Networking Customisations
+      include: networking.yml
+      tags: networking
 
     - name: Install Extra Packages
       include: packages.yml
@@ -130,6 +118,11 @@
     - name: Customise Settings
       include: settings.yml
       tags: settings
+
+    - name: Run Fixes
+      include: fixes.yml
+      when: run_fixes
+      tags: fixes
 
     # Restart the Network to apply IP addresses & routes.
     - name: Restart Network Service
