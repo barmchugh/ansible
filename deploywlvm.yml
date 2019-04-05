@@ -1,15 +1,14 @@
 ---
 # Playbook to deploy Centos VMs on vCenter
-# Requires an inventory file with group called: [centosnetsim].
+# Requires an inventory file with group called: [wlvm]. Uses the role deploycentosnetsim
 #
 # Created by: Bar McHugh
-# Written: Nov 2018
+# Written: April 2019
 # Updated: 
 #
 
 
-#- hosts: newnetsim 
-- hosts: centosnetsim 
+- hosts: wlvm 
   gather_facts: no 
   serial: 20
   roles:
@@ -20,7 +19,8 @@
       prompt: "What Cluster will these be deployed in? e.g. Netsim4-POD7-Cluster1, Netsim5-POD7-CL1 "
       private: no
   vars:
-    netsim_vm: yes
-    centos_vm_template: P5-centos75
+    wlvm: yes
+    netsim_vm: no
+    centos_vm_template: centos75
     ifcfg_name: ifcfg-ens160
     run_fixes: no

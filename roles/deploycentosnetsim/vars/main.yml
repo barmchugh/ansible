@@ -1,7 +1,7 @@
 ---
 # group_vars used in most cases as mulitple roles use the same common variables accross the enviroment
 
-vip_prefix: 22
+vip_prefix: 22        # /22 = 1024 IPs, and this would usually determine the range_file_number variable = 4 #
 range_file_number: 4  # This is calculate based on how many /24 network are in vip_prefix value. Range files can only have /24's defined. Centos limitation #
 ipv6_vip_prefix: 80
 ipv6_vip_count: 1000
@@ -17,6 +17,18 @@ config_files:
   - name: "/etc/ssh/sshd_config"
     regexp: "^ListenAddress 127.0.0.1"
     line: "ListenAddress 127.0.0.1"
+
+rsh_files:
+  - name: "/etc/pam.d/rsh"
+    regexp: "pam_securetty.so"
+    line: "#auth       required     pam_securetty.so"
+  - name: "/etc/pam.d/rlogin"
+    regexp: "pam_securetty.so"
+    line: "#auth       required     pam_securetty.so"
+  - name: "/etc/pam.d/rexec"
+    regexp: "pam_securetty.so"
+    line: "#auth       required     pam_securetty.so"
+
 
 
 package:
@@ -53,3 +65,7 @@ package:
   - rsh
   - rsh-server
   #- libreadline5
+
+wlvm_package:
+  - wget
+

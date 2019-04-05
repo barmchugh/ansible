@@ -1,0 +1,7 @@
+---
+- name: Install {{ wlvm_package }}
+  yum:
+    name: "{{ wlvm_package }}"
+    state: present
+  environment:
+    http_proxy: "{{ http_proxy }}"

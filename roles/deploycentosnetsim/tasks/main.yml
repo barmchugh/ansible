@@ -68,40 +68,11 @@
 
     - name: Wait for Slow Ass VMs to power on and run customization... Yawn.. ZzZZ!
       local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=10 timeout=240 connect_timeout=15
-
- #   - name: Run VIP Creation
- #     #connection: local
- #     #template: src=vips.j2 dest=/root/baz/vips.list
- #     template: src=vips.j2 dest=/etc/sysconfig/network-scripts/ifcfg-ens160
- #     register: ifcfg_state
- #     tags: vips
-
-    - name: Set Up main interface and IPv6
-      template:
-        src: ifcfg.j2
-        dest: "{{ifcfg_folder_path}}{{ifcfg_name}}"
-      register: ifcfg_state
-      tags: subinterface
-
-
-    - name: Create Sub Interfaces using Range Files
-      template: src=range.j2 dest="{{ifcfg_folder_path}}{{ifcfg_name}}-range{{item}}"
-      #template: src=range.j2 dest=/tmp/{{ifcfg_name}}-range{{item}}
-      loop: "{{range(0, range_file_number ) | list }}"   # range_file_number is defined in the role vars main.yml file #
-      #connection: local
-      register: ifcfg_range_state
-      tags: subinterface
     
-    - name: Configure Main interface
-      lineinfile:
-        path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
-        regexp: "{{item.regexp}}"
-        line: "{{item.line}}"
-        insertafter: '^BOOTPROTO' 
-      with_items:
-        - {regexp: '^ARP', line: 'ARPCHECK=no'}
-        - {regexp: '^NM_CONTROLLED', line: 'NM_CONTROLLED=no'}
-      tags: settings
+    - name: Setup Network Interfaces for Netsim Servers
+      include: netsim_interfaces.yml
+      when: netsim_vm
+      tags: netsim_networking
 
     - name: Setup Networking Customisations
       include: networking.yml
@@ -109,6 +80,12 @@
 
     - name: Install Extra Packages
       include: packages.yml
+      when: netsim_vm
+      tags: packages
+
+    - name: Install Extra Packages
+      include: wlvm_packages.yml
+      when: wlvm is defined and true
       tags: packages
 
     - name: Add Users
@@ -123,11 +100,4 @@
       include: fixes.yml
       when: run_fixes
       tags: fixes
-
-    # Restart the Network to apply IP addresses & routes.
-    - name: Restart Network Service
-      service:
-        name: network
-        state: restarted
-      when: ifcfg_state is changed or ifcfg_range_state is changed
 
