@@ -52,7 +52,8 @@ package:
   - zlib-devel
   - zlib
   - readline-devel-6.2-10.el7.i686
-  - openssl-libs-1.0.2k-16.el7.i686
+  #- openssl-libs-1.0.2k-16.el7.i686
+  - openssl-libs
   - openssl
   - ed
   - xterm
@@ -68,4 +69,8 @@ package:
 
 wlvm_package:
   - wget
+  - rsync
+  - python-setuptools
+  - sysstat
+  - vim
 

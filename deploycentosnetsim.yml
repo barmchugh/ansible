@@ -21,6 +21,6 @@
       private: no
   vars:
     netsim_vm: yes
-    centos_vm_template: P5-centos75
+    centos_vm_template: centos75
     ifcfg_name: ifcfg-ens160
     run_fixes: no
