@@ -62,6 +62,7 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim1-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
+    ipv6_vip_network: fd70:e1dd:bbc4
   - name: P5-Cld-Netsim2-vFarm
     vlan_id: 3018
     netrng: 10.141.0.0/23
@@ -71,6 +72,7 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim2-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
+    ipv6_vip_network: fd70:e1dd:bbc4
   - name: P5-Cld-Netsim3-vFarm
     vlan_id: 3024
     netrng: 10.141.10.0/23
@@ -80,6 +82,7 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim3-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
+    ipv6_vip_network: fd70:e1dd:bbc4
   - name: P5-Cld-Netsim4-vFarm
     vlan_id: 3026
     netrng: 10.151.192.0/21
@@ -89,6 +92,7 @@ networks:
     net_adapter1: dvPG_P5-Cld-Netsim4-vFarm
     vyos_template: P5-vyos-template-gw
     vip_network: 10.154.0.0/15
+    ipv6_vip_network: fd70:e1dd:bbc4
   - name: pod6
     vlan_id: 692
     netrng: 10.144.36.0/23

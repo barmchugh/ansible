@@ -65,6 +65,7 @@ package:
   - openldap-servers
   - rsh
   - rsh-server
+  - readline-static.x86_64
   #- libreadline5
 
 wlvm_package:
