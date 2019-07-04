@@ -6,6 +6,8 @@
     #state: absent
     state: present
     createhome: yes
+    move_home: yes
+    home: "/{{ item.name }}"
   with_items: "{{users}}"
 ###
 # Generating Password Strings

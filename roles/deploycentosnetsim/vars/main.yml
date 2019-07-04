@@ -29,6 +29,11 @@ rsh_files:
     regexp: "pam_securetty.so"
     line: "#auth       required     pam_securetty.so"
 
+sudoer_file:
+  - name: "/etc/sudoers"
+    regexp: "^Defaults r"
+    line: "Defaults rootpw"
+
 
 
 package:
@@ -52,8 +57,8 @@ package:
   - zlib-devel
   - zlib
   - readline-devel-6.2-10.el7.i686
-  #- openssl-libs-1.0.2k-16.el7.i686
-  - openssl-libs
+  - openssl-libs-1.0.2k-16.el7_6.1.i686
+  - openssl-libs.i686
   - openssl
   - ed
   - xterm
@@ -66,7 +71,7 @@ package:
   - rsh
   - rsh-server
   - readline-static.x86_64
-  #- libreadline5
+  #- libreadline5 - Installed by transferring rpm
 
 wlvm_package:
   - wget
@@ -75,3 +80,7 @@ wlvm_package:
   - sysstat
   - vim
 
+manual_package:
+  - "libreadline5-32bit-5.2-147.9.13.x86_64.rpm"
+
+package_dest: "/tmp/"

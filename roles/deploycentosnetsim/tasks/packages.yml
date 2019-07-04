@@ -9,3 +9,15 @@
     state: present
   environment:
     http_proxy: "{{ http_proxy }}"
+
+- name: Transfer Package
+  copy:
+    src: "{{ item }}"
+    dest: "{{ package_dest }}{{ item }}"
+  with_items: "{{manual_package}}"
+
+- name: Install {{ manual_package }}
+  yum:
+    name: "{{ package_dest }}{{item}}"
+    state: present
+  with_items: "{{manual_package}}"

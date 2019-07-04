@@ -97,6 +97,11 @@
     - name: Add Users
       include: users.yml
       tags: users
+    
+    - name: Netsim Customisations
+      include: netsim_customisations.yml
+      when: netsim_vm
+      tags: customise
 
     - name: Customise Settings
       include: settings.yml
