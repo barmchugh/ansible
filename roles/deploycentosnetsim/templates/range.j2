@@ -11,7 +11,7 @@
 IPADDR_START={{ vm_network | ipsubnet(24, item) | ipaddr('1') | ipaddr('address') }}
 {# End IP address is the last usable IP address of the VIP subnet range #}
 IPADDR_END={{ vm_network | ipsubnet(24, item) | ipaddr('-1') | ipaddr('address') }}
-PREFIX={{ vip_prefix }}
+PREFIX={{ vip_CIDR }}
 CLONENUM_START={{subinterface_index}}
 {% endif %}
 {% endfor -%}

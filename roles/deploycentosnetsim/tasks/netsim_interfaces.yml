@@ -28,9 +28,17 @@
     - {regexp: '^NM_CONTROLLED', line: 'NM_CONTROLLED=no'}
   tags: subinterface
 
+- name: Customise IPv6 Main interface
+  replace:
+    path: "{{ifcfg_folder_path}}{{ifcfg_name}}"
+    regexp: "/96"
+    replace: "/64"
+    backup: no
+  register: ifcfg_ipv6_subnet
+
 # Restart the Network to apply IP addresses & routes.
 - name: Restart Network Service
   service:
     name: network
     state: restarted
-  when: ifcfg_state is changed or ifcfg_range_state is changed
+  when: ifcfg_state is changed or ifcfg_range_state is changed or ifcfg_ipv6_subnet

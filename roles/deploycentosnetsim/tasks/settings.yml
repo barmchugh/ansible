@@ -30,7 +30,7 @@
     name: network
     state: started
 
-- name: Customise config file to allow connections only to main IP address
+- name: Customise config files as define in VARs
   lineinfile:
     path: "{{item.name}}"
     regexp: "{{item.regexp}}"

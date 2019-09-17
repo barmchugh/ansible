@@ -163,3 +163,10 @@ networks:
     vyos_template: P9-vyos-template-gw
     vip_network: 10.254.0.0/15
     ipv6_vip_network: fd4b:64bb:ad29
+  - name: p11-netsim-env2-provider1
+    netrng: 21.1.0.0/17
+    mask: 255.255.128.0
+    gateway: 21.1.0.1
+    vip_network: 21.1.0.0/17
+    ipv6_vip_network: 2001:1b70:6207:c5
+    ipv6_gateway: 2001:1b70:6207:c5::1

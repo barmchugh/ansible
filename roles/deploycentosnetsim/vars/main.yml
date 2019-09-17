@@ -1,14 +1,17 @@
 ---
 # group_vars used in most cases as mulitple roles use the same common variables accross the enviroment
 
-vip_prefix: 22        # /22 = 1024 IPs, and this would usually determine the range_file_number variable = 4 #
+vip_prefix: 22        # /22 (=1024) Value to specify the amount of VIPs per Server, and this would usually determine the range_file_number variable = 4 (as 4 x 256 = 1024) #
+vip_CIDR: 22        # The actual subnet to be used for the VIP network. Mostly will always be the same as {{vip_prefix}}, but will determine xxx.xxx.xxx.xxx/{{vip_CIDR}}. 
 range_file_number: 4  # This is calculate based on how many /24 network are in vip_prefix value. Range files can only have /24's defined. Centos limitation #
 ipv6_vip_prefix: 80
+#ipv6_vip_prefix: 96  # Value for Openstack Instances
 ipv6_vip_count: 1000
 #vip_count: 1023
  
 ifcfg_folder_path: "/etc/sysconfig/network-scripts/"
 device_name: ens160
+#device_name: eth0  # Value for Openstack Instances
 
 config_files:
   - name: "/etc/ssh/sshd_config"
@@ -17,6 +20,9 @@ config_files:
   - name: "/etc/ssh/sshd_config"
     regexp: "^ListenAddress 127.0.0.1"
     line: "ListenAddress 127.0.0.1"
+  - name: "/etc/ssh/sshd_config"
+    regexp: "^MaxStartups 200"
+    line: "MaxStartups 200"
 
 rsh_files:
   - name: "/etc/pam.d/rsh"
@@ -72,6 +78,7 @@ package:
   - rsh-server
   - readline-static.x86_64
   #- libreadline5 - Installed by transferring rpm
+  - psmisc
 
 wlvm_package:
   - wget
