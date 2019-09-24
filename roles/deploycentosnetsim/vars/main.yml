@@ -23,6 +23,27 @@ config_files:
   - name: "/etc/ssh/sshd_config"
     regexp: "^MaxStartups 200"
     line: "MaxStartups 200"
+  - name: "/etc/security/limits.conf"
+    regexp: "hard    nofile             64000"
+    line: "*               hard    nofile             64000"
+  - name: "/etc/security/limits.conf"
+    regexp: "soft    nofile             64000"
+    line: "*               soft    nofile             64000"
+  - name: "/etc/security/limits.d/20-nproc.conf"
+    regexp: "^.          soft    nproc"
+    line: "*          soft    nproc     516359"
+  - name: "/etc/security/limits.d/20-nproc.conf"
+    regexp: "^root       soft    nproc"
+    line: "root       soft    nproc     unlimited"
+  - name: "/etc/sysctl.conf"
+    regexp: "^kernel.pid_max = [0-9]"
+    line: "kernel.pid_max = 65536"
+  - name: "/etc/sysctl.conf"
+    regexp: "^kernel.threads-max = [0-9]"
+    line: "kernel.threads-max = 1032718"
+  - name: "/etc/sysctl.conf"
+    regexp: "^fs.inotify.max_user_watches = [0-9]"
+    line: "fs.inotify.max_user_watches = 65536"
 
 rsh_files:
   - name: "/etc/pam.d/rsh"
@@ -62,8 +83,7 @@ package:
   - ncurses-libs-5.9-14.20130511.el7_4.i686
   - zlib-devel
   - zlib
-  - readline-devel-6.2-10.el7.i686
-  - openssl-libs-1.0.2k-16.el7_6.1.i686
+  - readline-devel.i686
   - openssl-libs.i686
   - openssl
   - ed
