@@ -99,6 +99,7 @@ package:
   - readline-static.x86_64
   #- libreadline5 - Installed by transferring rpm
   - psmisc
+  - vim
 
 wlvm_package:
   - wget

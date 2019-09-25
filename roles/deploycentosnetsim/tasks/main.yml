@@ -93,6 +93,11 @@
       include: wlvm_packages.yml
       when: wlvm is defined and true
       tags: packages
+    
+    - name: WL VM Customisations
+      include: wlvm_settings.yml
+      when: wlvm is defined and true
+      tags: settings
 
     - name: Add Users
       include: users.yml
@@ -100,7 +105,7 @@
     
     - name: Netsim Customisations
       include: netsim_customisations.yml
-      when: netsim_vm
+      when: netsim_vm is defined and true
       tags: customise
 
     - name: Customise Settings
