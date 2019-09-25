@@ -44,6 +44,12 @@ config_files:
   - name: "/etc/sysctl.conf"
     regexp: "^fs.inotify.max_user_watches = [0-9]"
     line: "fs.inotify.max_user_watches = 65536"
+  - name: "/etc/profile"
+    regexp: "^http_proxy="
+    line: "http_proxy=atproxy1:3128"
+  - name: "/etc/profile"
+    regexp: "^https_proxy="
+    line: "https_proxy=atproxy1:3128"
 
 rsh_files:
   - name: "/etc/pam.d/rsh"

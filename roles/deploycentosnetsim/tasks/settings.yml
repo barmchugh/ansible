@@ -30,16 +30,6 @@
     name: network
     state: started
 
-- name: Start & Enable slapd
-  systemd:
-    name: slapd
-    state: started
-    enabled: yes
-
-- name: Customise /proc/sys/kernel/pid_max
-  shell: 'echo "65536" > /proc/sys/kernel/pid_max'
-  when: lookup('file', '/proc/sys/kernel/pid_max') < 65536
-
 - name: Customise config files as define in VARs
   lineinfile:
     path: "{{item.name}}"

@@ -103,14 +103,14 @@
       include: users.yml
       tags: users
     
+    - name: Customise Settings
+      include: settings.yml
+      tags: settings
+    
     - name: Netsim Customisations
       include: netsim_customisations.yml
       when: netsim_vm is defined and true
       tags: customise
-
-    - name: Customise Settings
-      include: settings.yml
-      tags: settings
 
     - name: Run Fixes
       include: fixes.yml

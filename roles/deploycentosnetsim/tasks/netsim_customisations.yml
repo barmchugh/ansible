@@ -13,3 +13,12 @@
     line: "{{item.line}}"
   with_items: "{{sudoer_file}}"
 
+- name: Start & Enable slapd
+  systemd:
+    name: slapd
+    state: started
+    enabled: yes
+
+- name: Customise /proc/sys/kernel/pid_max
+  shell: 'echo "65536" > /proc/sys/kernel/pid_max'
+  when: lookup('file', '/proc/sys/kernel/pid_max')|int != 65536
