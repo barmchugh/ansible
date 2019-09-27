@@ -46,10 +46,10 @@ config_files:
     line: "fs.inotify.max_user_watches = 65536"
   - name: "/etc/profile"
     regexp: "^http_proxy="
-    line: "http_proxy=atproxy1:3128"
+    line: "http_proxy=159.107.173.253:3128"
   - name: "/etc/profile"
     regexp: "^https_proxy="
-    line: "https_proxy=atproxy1:3128"
+    line: "https_proxy=159.107.173.253:3128"
 
 rsh_files:
   - name: "/etc/pam.d/rsh"
@@ -106,6 +106,8 @@ package:
   #- libreadline5 - Installed by transferring rpm
   - psmisc
   - vim
+  - perl-Compress-Raw-Zlib
+  - perl-IO-Compress
 
 wlvm_package:
   - wget

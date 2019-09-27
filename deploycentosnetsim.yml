@@ -22,7 +22,8 @@
   vars:
     netsim_vm: yes
     #centos_vm_template: P5-centos75
-    centos_vm_template: centos75
+    #centos_vm_template: centos75
+    centos_vm_template: centos77
     ifcfg_name: ifcfg-ens160
     #ifcfg_name: ifcfg-eth0
     run_fixes: no

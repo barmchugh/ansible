@@ -36,11 +36,3 @@
     regexp: "{{item.regexp}}"
     line: "{{item.line}}"
   with_items: "{{config_files}}"
-
-- name: Allow rsh for root
-  lineinfile:
-    path: "{{item.name}}"
-    regexp: "{{item.regexp}}"
-    line: "{{item.line}}"
-  with_items: "{{rsh_files}}"
-  when: netsim_vm

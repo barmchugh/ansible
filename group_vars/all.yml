@@ -15,7 +15,7 @@ vcenters:
       Netsim4-POD5-Cluster1: P5-netsim-template-CL1
       Netsim4-POD6-Cluster1: P6-netsim-template-CL1
       Netsim4-POD7-Cluster1: P7-netsim-template-CL1
-      Netsim4-POD7-Cluster2: P7-netsim-template-CL2
+      Netsim4-POD11-CL1: centos7
   - name: atvcen21
     datacenter: Netsim5 
     clusters:
@@ -163,6 +163,14 @@ networks:
     vyos_template: P9-vyos-template-gw
     vip_network: 10.254.0.0/15
     ipv6_vip_network: fd4b:64bb:ad29
+  - name: p11-netsim-esxi
+    netrng: 10.224.60.0/23
+    mask: 255.255.254.0
+    gateway: 10.224.60.1
+    vip_network: 21.1.0.0/17
+    ipv6_vip_network: 2001:1b70:6207:c5
+    ipv6_gateway: 2001:1b70:6207:c5::1
+    net_adapter1: p11-netsim-esxi
   - name: p11-netsim-env2-provider1
     netrng: 21.1.0.0/17
     mask: 255.255.128.0
