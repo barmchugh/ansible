@@ -16,6 +16,17 @@
     - rlogin.socket
     - rexec.socket
 
+- name: Create if not created ~/.rhosts file and Set permissions & copy in content
+  copy:
+    content: "+ +"
+    dest: "/{{item}}/.rhosts"
+    owner: "{{item}}"
+    group: "{{item}}"
+    mode: "0600"
+  with_items:
+    - root
+    - netsim
+
 - name: Create /netsim directory
   file:
     path: /netsim
@@ -36,6 +47,14 @@
     state: started
     enabled: yes
 
-- name: Customise /proc/sys/kernel/pid_max
-  shell: 'echo "65536" > /proc/sys/kernel/pid_max'
-  when: lookup('file', '/proc/sys/kernel/pid_max')|int != 65536
+- name: Check value of /proc/sys/kernel/pid_max
+  command: "sysctl kernel.pid_max"
+  register: pid_max
+  changed_when: false
+
+- name: Set /proc/sys/kernel/pid_max to 65536 - Skips if already at 65536
+  copy:
+    content: "65536"
+    dest: /proc/sys/kernel/pid_max
+    unsafe_writes: yes
+  when: pid_max.stdout | regex_search("[0-9]{1,5}$") | int < 65535

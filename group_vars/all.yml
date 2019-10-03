@@ -178,3 +178,11 @@ networks:
     vip_network: 21.1.0.0/17
     ipv6_vip_network: 2001:1b70:6207:c5
     ipv6_gateway: 2001:1b70:6207:c5::1
+  - name: p11-vfarm-oam1
+    netrng: 10.232.4.0/24
+    mask: 255.255.255.0
+    gateway: 10.232.4.1
+    vip_network: 30.1.0.0/17
+    ipv6_vip_network: 2001:1b70:6207:c5
+    ipv6_gateway: 2001:1b70:6207:c5::1
+    net_adapter1: p11-vfarm-oam1
