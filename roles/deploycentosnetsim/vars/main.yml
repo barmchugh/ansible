@@ -45,11 +45,11 @@ config_files:
     regexp: "^fs.inotify.max_user_watches = [0-9]"
     line: "fs.inotify.max_user_watches = 65536"
   - name: "/etc/profile"
-    regexp: "^http_proxy="
-    line: "http_proxy=159.107.173.253:3128"
+    regexp: "^export http_proxy="
+    line: "export http_proxy=159.107.173.253:3128"
   - name: "/etc/profile"
-    regexp: "^https_proxy="
-    line: "https_proxy=159.107.173.253:3128"
+    regexp: "^export https_proxy="
+    line: "export https_proxy=159.107.173.253:3128"
 
 rsh_files:
   - name: "/etc/pam.d/rsh"
@@ -76,6 +76,9 @@ rsh_files:
   - name: "/etc/selinux/config"
     regexp: "SELINUX=disabled"
     line: "SELINUX=disabled"
+  - name: "/etc/selinux/config"
+    regexp: "SELINUX=enforcing"
+    line: "#SELINUX=enforcing"
 
 sudoer_file:
   - name: "/etc/sudoers"
@@ -123,6 +126,14 @@ package:
   - vim
   - perl-Compress-Raw-Zlib
   - perl-IO-Compress
+  - xauth
+  - libXext.x86_64
+  - libXrender.x86_64
+  - libXtst.x86_64
+  - libXext.i686
+  - libXtst-devel.i686
+  - libXrender-devel.i686
+
 
 wlvm_package:
   - wget

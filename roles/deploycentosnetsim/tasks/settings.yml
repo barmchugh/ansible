@@ -3,21 +3,25 @@
   systemd:
     name: firewalld
     enabled: no
+  ignore_errors: yes
 
 - name: Stop Firewalld
   systemd:
     name: firewalld
     state: stopped
+  ignore_errors: yes
 
 - name: Disable NetworkManger
   systemd:
     name: NetworkManager
     enabled: no
+  ignore_errors: yes
 
 - name: Stop NetworkManager
   systemd:
     name: NetworkManager
     state: stopped
+  ignore_errors: yes
 
 
 - name: Enable Network

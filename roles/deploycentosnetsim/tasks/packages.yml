@@ -1,3 +1,9 @@
+- name: Set up Proxy
+  lineinfile:
+    path: "/etc/yum.conf"
+    regexp: "proxy="
+    line: "proxy={{ http_proxy }}"
+
 - name: Upgrade all packages
   yum:
     name: '*'
@@ -7,8 +13,6 @@
   yum:
     name: "{{ package }}"
     state: present
-  environment:
-    http_proxy: "{{ http_proxy }}"
 
 - name: Transfer Package
   copy:

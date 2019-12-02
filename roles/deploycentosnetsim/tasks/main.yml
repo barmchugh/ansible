@@ -27,7 +27,7 @@
         validate_certs: no
         datacenter: "{{ datacenter }}" 
         cluster: "{{ cluster_input }}" 
-        folder: "{{ datacenter }}/vm"
+        #folder: "{{ datacenter }}/vm"
         #esxi_hostname: "{{ hostvars[inventory_hostname].group_names[0] }}"
         name: "{{ inventory_hostname }}"
         state: poweredon 

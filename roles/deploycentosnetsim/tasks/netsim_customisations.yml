@@ -34,6 +34,14 @@
     owner: netsim
     group: netsim
 
+- name: Create /pms_tmpfs directory
+  file:
+    path: /pms_tmpfs
+    state: directory 
+    owner: netsim
+    group: netsim
+    mode: "0777"
+
 - name: Change sudo password to root pw
   lineinfile:
     path: "{{item.name}}"
